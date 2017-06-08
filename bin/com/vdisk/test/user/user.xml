@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false" verbose="1">
+ <!-- 	<parameter name="uid" value="3903637216" />-->
+ <parameter name="uid" value="3925816567" />
+ <parameter name="forbidden_uid" value="3655800194" />
+ <parameter name="host" value="https://api.weipan.cn" />
+ <parameter name="local_file_path" value="F:/FileUp" />
+ <parameter name="download_file_path" value="F:/FileDown" />
+ <parameter name="temp_file_path" value="F:/temp_file" />
+ <parameter name="need_ext" value="/need_ext_folder" />
+
+<!--公共格式验证参数-->
+  <parameter name="decimal" value="1.123" />
+  <parameter name="negative" value="-5" />
+  <parameter name="chinese" value="测试" />
+  <parameter name="letter" value="AbCd" />
+  <parameter name="spec_str" value="!@#$%" />
+  <parameter name="empty_str" value="" />
+  <parameter name="en_space" value=" " />
+  <parameter name="superSizeFile" value="F:/eclipse.rar" />
+   <!-- 
+  <test name="TestAccountInfo" preserve-order="false">
+  	<parameter name="account_info_uri" value="/2/account/info" />
+    <classes>
+      <class name="com.vdisk.test.user.TestAccountInfo"/>
+    </classes>
+  </test>
+  --> 
+  
+
+  <test name="TestAccountLogin" preserve-order="false">
+  	<parameter name="account_login_uri" value="/2/account/has_login" />
+    <classes>
+      <class name="com.vdisk.test.user.TestAccountLogin"/>
+    </classes>
+  </test>
+  <!--  
+  <test name="TestAccountAddspace" preserve-order="false">
+  	<parameter name="account_addspace_uri" value="/2/account/add_space" />
+    <classes>
+      <class name="com.vdisk.test.user.TestAccountAddspace"/>
+    </classes>
+  </test>
+
+
+  <test name="TestAccountActivity" preserve-order="false">
+  	<parameter name="account_Activity_uri" value="/2/account/act_day" />
+    <classes>
+      <class name="com.vdisk.test.user.TestAccountActivity"/>
+    </classes>
+  </test>
+
+ -->
+
+
+
+ 
+ 
+</suite> <!-- Suite -->

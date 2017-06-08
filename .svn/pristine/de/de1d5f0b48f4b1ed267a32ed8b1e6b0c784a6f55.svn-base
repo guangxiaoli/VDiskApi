@@ -1,0 +1,96 @@
+package com.vdisk.entity;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+
+import com.vdisk.operator.VdiskFileOperator;
+import com.vdisk.operator.VdiskShareOperator;
+import com.vdisk.util.CommonUtils;
+
+public class VdiskAPITest {
+	public final static String APP_KEY = "4188864776";
+	public final static String APP_SECRET = "3d7742aeb937d3dc93b86a92c4d6bac5";
+	public final static String ERR_KEY = "error_detail_code";
+	public final static String ROOT = "basic";
+	public final static String HOST = "https://api.weipan.cn";
+	public final static int Category_ID = 41; //分享文件的分类id
+	
+	protected String uri;
+	protected String uid;
+//	protected String url;
+	protected String vDirector;
+	protected String file_md5;
+	protected Map<String,String> paramsMap;
+	protected Map<String,String> headersMap;
+	protected VdiskRequest vdiskRequest;//请求方法对象
+	protected VdiskFileOperator fileops;
+	protected VdiskShareOperator shareops;
+	
+	public VdiskAPITest(){
+		this.paramsMap = new HashMap<String, String>();
+		this.vdiskRequest = new VdiskRequest();
+//		this.fileOperate = new FileOperate();
+//		this.folderOperate = new FolderOperate();
+		this.fileops = new VdiskFileOperator(vdiskRequest);
+		this.shareops = new VdiskShareOperator(vdiskRequest);
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+//	public String getUrl() {
+//		return url;
+//	}
+//
+//	public void setUrl(String url) {
+//		this.url = url;
+//	}
+
+	public String getFile_md5() {
+		return file_md5;
+	}
+
+	public void setFile_md5(String file_md5) {
+		this.file_md5 = file_md5;
+	}
+
+	public Map<String, String> getParamsMap() {
+		return paramsMap;
+	}
+	public String getParam(String key){
+		return paramsMap.get(key);
+	}
+	public void setParamsMap(Map<String, String> paramsMap) {
+		this.paramsMap = paramsMap;
+	}
+	
+//	protected String createFolder(){
+//	long timeStamp = System.currentTimeMillis();
+//	String folder = CommonUtils.timeStampCovertDate(timeStamp);
+////	String body = folderOperate.createFolder(folder, uid);
+//	String body = operation.createFolder(folder, uid);
+//	return operation.jsonDecode(body, "path");
+////	return json.get("path").toString();
+//	}	
+	protected String createFolder(String className){
+		long timeStamp = System.currentTimeMillis();
+		String folder = className + "_" + CommonUtils.timeStampCovertDate(timeStamp);
+		String body = fileops.createFolder(folder, uid);
+		return fileops.jsonDecode(body, "path");
+	}
+}

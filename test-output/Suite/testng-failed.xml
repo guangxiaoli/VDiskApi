@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite]">
+  <parameter name="uid" value="3925816567"/>
+  <parameter name="host" value="https://api.weipan.cn"/>
+  <parameter name="superSizeFile" value="F:/eclipse.rar"/>
+  <parameter name="en_space" value=" "/>
+  <parameter name="letter" value="AbCd"/>
+  <parameter name="linkcommon_cpoy_uri" value="/2/linkcommon/copy"/>
+  <parameter name="forbidden_uid" value="3655800194"/>
+  <parameter name="decimal" value="1.123"/>
+  <parameter name="chinese" value="测试"/>
+  <parameter name="empty_str" value=""/>
+  <parameter name="local_file_path" value="F:/FileUp"/>
+  <parameter name="download_file_path" value="F:/FileDown"/>
+  <parameter name="temp_file_path" value="F:/temp_file"/>
+  <parameter name="negative" value="-5"/>
+  <parameter name="need_ext" value="/need_ext_folder"/>
+  <parameter name="spec_str" value="!@#$%"/>
+  <test name="TestLinkcommonCpoy(failed)">
+    <parameter name="linkcommon_cpoy_uri" value="/2/linkcommon/copy"/>
+    <classes>
+      <class name="com.vdisk.test.linkcommon.TestLinkcommonCpoy">
+        <methods>
+          <include name="testLinkcommonCpoy"/>
+        </methods>
+      </class> <!-- com.vdisk.test.linkcommon.TestLinkcommonCpoy -->
+    </classes>
+  </test> <!-- TestLinkcommonCpoy(failed) -->
+</suite> <!-- Failed suite [Suite] -->

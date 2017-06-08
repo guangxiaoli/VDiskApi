@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Share_Related Suite" parallel="false" verbose="1">
+ <!-- 	<parameter name="uid" value="1746090663" />-->
+ <parameter name="uid" value="1943328424" />
+ <parameter name="forbidden_uid" value="3655800194" />
+ <parameter name="host" value="https://api.weipan.cn" />
+ <parameter name="local_file_path" value="E:/UpFile" />
+ <parameter name="download_file_path" value="E:/360Downloads" />
+ <parameter name="temp_file_path" value="E:/temp_file" />
+ <parameter name="need_ext" value="/need_ext_folder" />
+
+<!--公共格式验证参数-->
+  <parameter name="decimal" value="1.123" />
+  <parameter name="negative" value="-5" />
+  <parameter name="chinese" value="测试" />
+  <parameter name="letter" value="AbCd" />
+  <parameter name="spec_str" value="!@#$%" />
+  <parameter name="empty_str" value="" />
+  <parameter name="en_space" value=" " />
+  <parameter name="superSizeFile" value="F:/eclipse.rar" />
+  
+ <!--TestCase-->
+
+  <test name="TestShareList" preserve-order="false">
+  	<parameter name="sharelist_uri" value="/2/share/list" />
+    <classes>
+      <class name="com.vdisk.test.share_related.TestShareList"/>
+    </classes>
+  </test>
+ <!--
+  <test name="TestShareGet" preserve-order="false">
+  	<parameter name="share_get_uri" value="/2/share/get" />
+    <classes>
+      <class name="com.vdisk.test.share_related.TestShareGet"/>
+    </classes>
+  </test>
+  -->
+</suite> <!-- Suite -->

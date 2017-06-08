@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false" verbose="1">
+  <!-- 	<parameter name="uid" value="1746090663" />-->
+ <parameter name="uid" value="1943328424" />
+ <parameter name="forbidden_uid" value="3655800194" />
+ <parameter name="host" value="https://api.weipan.cn" />
+ <parameter name="local_file_path" value="E:/UpFile" />
+ <parameter name="download_file_path" value="E:/360Downloads" />
+ <parameter name="temp_file_path" value="E:/temp_file" />
+ <parameter name="need_ext" value="/need_ext_folder" />
+
+<!--公共格式验证参数-->
+  <parameter name="decimal" value="1.123" />
+  <parameter name="negative" value="-5" />
+  <parameter name="chinese" value="测试" />
+  <parameter name="letter" value="AbCd" />
+  <parameter name="spec_str" value="!@#$%" />
+  <parameter name="empty_str" value="" />
+  <parameter name="en_space" value=" " />
+  <parameter name="superSizeFile" value="F:/eclipse.rar" />
+  
+ <!--TestCase-->
+  <test name="TestShares" preserve-order="false">
+  	<parameter name="shares_uri" value="/2/shares/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestShares"/>
+    </classes>
+  </test>
+  <!--
+   <test name="TestSearch" preserve-order="false">
+  	<parameter name="search_uri" value="/2/search/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestSearch"/>
+    </classes>
+  </test>
+  <test name="TestRevision" preserve-order="false">
+  	<parameter name="revision_uri" value="/2/revisions/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestRevision"/>
+    </classes>
+  </test>
+  <test name="TestMetaData" preserve-order="false">
+  	<parameter name="metadata_uri" value="/2/metadata/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestMetaData"/>
+    </classes>
+  </test>  
+  <test name="TestPostUpFile" preserve-order="false">
+  	<parameter name="files_post_uri" value="/2/files/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestPostUpFile"/>
+    </classes>
+  </test> 
+  <test name="TestPutUpFile" preserve-order="false">
+  	<parameter name="files_put_uri" value="/2/files_put/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestPutUpFile"/>
+    </classes>
+  </test> 
+  <test name="TestDelta" preserve-order="false">
+  	<parameter name="delta_uri" value="/2/delta/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestDelta"/>
+    </classes>
+  </test>  
+  <test name="TestDownLoadFile" preserve-order="false">
+  	<parameter name="downLoadFile_uri" value="/2/files/basic" />
+    <classes>
+      <class name="com.vdisk.test.TestDownLoadFile"/>
+    </classes>
+  </test>
+-->
+</suite> <!-- Suite -->

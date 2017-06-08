@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="5" passed="5">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="844" started-at="2013-12-30T11:29:55Z" finished-at="2013-12-30T11:29:56Z">
+    <groups>
+    </groups>
+    <test name="TestAccountLogin" duration-ms="844" started-at="2013-12-30T11:29:55Z" finished-at="2013-12-30T11:29:56Z">
+      <class name="com.vdisk.test.user.TestAccountLogin">
+        <test-method status="PASS" signature="inti(java.lang.String, java.lang.String)[pri:0, instance:com.vdisk.test.user.TestAccountLogin@194a7ec]" name="inti" is-config="true" duration-ms="0" started-at="2013-12-30T19:29:55Z" finished-at="2013-12-30T19:29:55Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[3925816567]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[/2/account/has_login]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- inti -->
+        <test-method status="PASS" signature="testLogin_EndtimeNull()[pri:0, instance:com.vdisk.test.user.TestAccountLogin@194a7ec]" name="testLogin_EndtimeNull" duration-ms="657" started-at="2013-12-30T19:29:55Z" description="有起始时间，截止时间为空。" finished-at="2013-12-30T19:29:55Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLogin_EndtimeNull -->
+        <test-method status="PASS" signature="testLogin_Normal()[pri:0, instance:com.vdisk.test.user.TestAccountLogin@194a7ec]" name="testLogin_Normal" duration-ms="46" started-at="2013-12-30T19:29:55Z" description="正常时间段验证登陆" finished-at="2013-12-30T19:29:55Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLogin_Normal -->
+        <test-method status="PASS" signature="testLogin_Null()[pri:0, instance:com.vdisk.test.user.TestAccountLogin@194a7ec]" name="testLogin_Null" duration-ms="47" started-at="2013-12-30T19:29:55Z" description="起始时间， 截止时间都为空" finished-at="2013-12-30T19:29:55Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLogin_Null -->
+        <test-method status="PASS" signature="testLogin_StarttimeNull()[pri:0, instance:com.vdisk.test.user.TestAccountLogin@194a7ec]" name="testLogin_StarttimeNull" duration-ms="47" started-at="2013-12-30T19:29:55Z" description="有截止时间、起始时间为空，" finished-at="2013-12-30T19:29:56Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLogin_StarttimeNull -->
+        <test-method status="PASS" signature="testTimeOut()[pri:0, instance:com.vdisk.test.user.TestAccountLogin@194a7ec]" name="testTimeOut" duration-ms="0" started-at="2013-12-30T19:29:56Z" description="时间段大于7天 " finished-at="2013-12-30T19:29:56Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testTimeOut -->
+      </class> <!-- com.vdisk.test.user.TestAccountLogin -->
+    </test> <!-- TestAccountLogin -->
+  </suite> <!-- Suite -->
+</testng-results>

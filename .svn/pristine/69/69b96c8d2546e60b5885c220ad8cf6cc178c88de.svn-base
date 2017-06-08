@@ -1,0 +1,83 @@
+package com.vdisk.test.file_related;
+
+import java.io.File;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import com.vdisk.entity.VdiskAPITest;
+import com.vdisk.util.CommonUtils;
+
+public class TestCopy_ref extends VdiskAPITest{
+	@Parameters({"uid","copy_ref_uri","local_file_path","temp_file_path"})
+	@BeforeClass
+	public void init(String uid,String copy_ref_uri,String local_file_path,String temp_file_path){
+		setUid(uid);
+		setUri(copy_ref_uri);
+		fileops.addLocalFile(local_file_path);
+		vDirector = createFolder(CommonUtils.getClassName(this));
+	}
+	@BeforeMethod
+	public void cleanParams(){
+		paramsMap.clear();
+	}
+	@Test(description="创建一个可以转存此分享文件的标识字符串")
+	public void testCopy_ref(){
+		File file = fileops.fList.get(0);
+		String file_path = fileops.jsonDecode(fileops.upLoadFile(file, vDirector, uid, null),"path");
+		String url = fileops.jsonDecode(fileops.shares(file_path, "false", uid),"url");
+		String pre_ref = url.substring(url.lastIndexOf("/")+1 ,url.length());
+		String cur_ref = fileops.jsonDecode(generateCopy_ref(file_path),"copy_ref");
+		Assert.assertEquals(cur_ref, pre_ref, "testCopy_ref_分享标识符创建失败");
+	}
+	@Test(description="不存在文件路径")
+	public void testCopy_ref_notExistPath_40403(){
+		String path = vDirector + "/" + CommonUtils.getExpireTime(0)+".txt";
+		String errID = fileops.jsonDecode(generateCopy_ref(path),ERR_KEY);
+		Assert.assertEquals(errID, "40403", "testCopy_ref_notExistPath_40403验证失败");
+	}
+	@Test(description="文件夹路径")
+	public void testCopy_ref_folderPath_40604(){
+		String path = vDirector;
+		String errID = fileops.jsonDecode(generateCopy_ref(path),ERR_KEY);
+		Assert.assertEquals(errID, "40604", "testCopy_ref_folderPath_40604验证失败");
+	}
+//	@Test(description="敏感词文件")
+//	public void testCopy_ref_fileRestriction_40304(){
+//		File file = fileops.fList.get(0);
+//		String fpath = fileops.jsonDecode(fileops.upLoadFile(file, vDirector, uid, paramsMap),"path");
+//		paramsMap.put("root", "basic");
+//		paramsMap.put("from_path", fpath);
+//		String rename = "法轮功12345.txt";
+//		paramsMap.put("to_path", fpath.substring(0,fpath.lastIndexOf("/")+1) + rename);
+//		fileops.jsonDecode(fileops.rename(paramsMap, uid),"path");
+//		String path = fpath.substring(0,fpath.lastIndexOf("/") + 1) + CommonUtils.urlEncode(rename);
+//		String errID = fileops.jsonDecode(generateCopy_ref(path),ERR_KEY);
+//		Assert.assertEquals(errID, "40304", "testCopy_ref_fileRestriction_40304验证失败");
+//	}
+//	@Test(description="敏感词路径")
+//	public void testCopy_ref_folderRestriction_40304(){
+//		File file = fileops.fList.get(0);
+//		String folder_name = "法轮功";
+//		String folder = vDirector + "/" + CommonUtils.urlEncode(folder_name);
+//		String file_path = fileops.jsonDecode(fileops.upLoadFile(file, folder, uid, paramsMap),"path");
+//		String path = folder + "/" + file_path.substring(file_path.lastIndexOf("/")+1,file_path.length());
+//		String errID = fileops.jsonDecode(generateCopy_ref(path),ERR_KEY);
+//		Assert.assertEquals(errID, "40304", "testCopy_ref_folderPath_40604验证失败");
+//	}
+	//获取享文件的标识字符串接口
+	private String generateCopy_ref(String path){
+		String copy_ref_uri = uri + path;
+		vdiskRequest.doPost(copy_ref_uri, null, null, uid);
+		String body = vdiskRequest.getVdiskResult().getBody();
+		return body;
+	}
+	@AfterClass
+	public void cleanup(){
+		fileops.delete(vDirector, uid);
+	}
+}

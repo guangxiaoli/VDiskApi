@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="linkcommon" parallel="false" verbose="1">
+ <!-- 	<parameter name="uid" value="3903637216" />-->
+ <parameter name="uid" value="3925816567" />
+ <parameter name="forbidden_uid" value="3655800194" />
+ <parameter name="host" value="https://api.weipan.cn" />
+ <parameter name="local_file_path" value="F:/FileUp" />
+ <parameter name="download_file_path" value="F:/FileDown" />
+ <parameter name="temp_file_path" value="F:/temp_file" />
+ <parameter name="need_ext" value="/need_ext_folder" />
+
+<!--公共格式验证参数-->
+  <parameter name="decimal" value="1.123" />
+  <parameter name="negative" value="-5" />
+  <parameter name="chinese" value="测试" />
+  <parameter name="letter" value="AbCd" />
+  <parameter name="spec_str" value="!@#$%" />
+  <parameter name="empty_str" value="" />
+  <parameter name="en_space" value=" " />
+  <parameter name="superSizeFile" value="F:/eclipse.rar" />
+
+   <!--  
+  <test name="TestLinkcommonNew" preserve-order="false">
+  	<parameter name="linkcommon_new_uri" value="/2/linkcommon/new" />
+    <classes>
+      <class name="com.vdisk.test.linkcommon.TestLinkcommonNew"/>
+    </classes>
+  </test>
+
+
+
+   <test name="TestLinkcommonCpoy" preserve-order="false">
+  	<parameter name="linkcommon_cpoy_uri" value="/2/linkcommon/copy" />
+    <classes>
+      <class name="com.vdisk.test.linkcommon.TestLinkcommonCpoy"/>
+    </classes>
+  </test>
+
+
+   <test name="TestLinkcommonGet" preserve-order="false">
+  	<parameter name="linkcommon_get_uri" value="/2/linkcommon/get" />
+    <classes>
+      <class name="com.vdisk.test.linkcommon.TestLinkcommonGet"/>
+    </classes>
+  </test>
+
+ 
+ 
+   <test name="TestLinkcommonDelete" preserve-order="false">
+  	<parameter name="linkcommon_delete_uri" value="/2/linkcommon/delete" />
+    <classes>
+      <class name="com.vdisk.test.linkcommon.TestLinkcommonDelete"/>
+    </classes>
+  </test>
+
+
+   <test name="TestShareCount" preserve-order="false">
+  	<parameter name="linkcommon_shareCount_uri" value="/2/sharemanage/update_content" />
+    <classes>
+      <class name="com.vdisk.test.linkcommon.TestShareCount"/>
+    </classes>
+  </test>
+
+ -->
+ 
+
+ 
+
+</suite> <!-- Suite -->

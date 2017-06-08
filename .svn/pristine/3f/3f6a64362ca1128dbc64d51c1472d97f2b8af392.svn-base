@@ -1,0 +1,202 @@
+package com.vdisk.test.file_related;
+
+import java.io.File;
+
+import net.sf.json.JSONArray;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import com.vdisk.entity.VdiskAPITest;
+import com.vdisk.util.CommonUtils;
+
+/**用户分享文件(暂不支持文件夹分享)
+ * */
+public class TestShares extends VdiskAPITest{
+	private String shareFilePath;
+	@Parameters({"uid","shares_uri","local_file_path"})
+	@BeforeClass
+	public void init(String uid,String shares_uri,String local_file_path){
+		setUid(uid);
+		setUri(shares_uri);
+		fileops.addLocalFile(local_file_path);
+		vDirector = createFolder(CommonUtils.getClassName(this));
+		shareFilePath = prepareShareFile();
+//		System.err.println(shareFilePath);
+	}
+	@BeforeMethod
+	public void cleanParams(){
+		paramsMap.clear();
+	}
+	@Test(description="文件分享")
+	public void testShares_shareFile(){
+		String filename = shareFilePath.substring(shareFilePath.lastIndexOf("/")+1,shareFilePath.length());
+		System.out.println(fileops.shares(shareFilePath, "false", uid));
+//		System.out.println(shares(shareFilePath, "false", uid));1386049160
+		String result = fileops.list_user_items(paramsMap, uid);
+		JSONArray arr = new JSONArray().fromObject(result);
+		boolean flag = false;
+		for (int i = 0; i < arr.size(); i++) {
+			String name = arr.getJSONObject(i).getString("name");
+//			System.out.println(name);
+			if(name.equals(filename)){
+				flag = true;
+				break;
+			}
+		}
+		Assert.assertTrue(flag,"testShares_shareFile分享文件失败");
+	}
+	@Test(description="分享包含敏感词的文件")
+	public void testShares_file_restriction_40304(){
+		paramsMap.put("root", "basic");
+		paramsMap.put("from_path", shareFilePath);
+		String rename = "法轮功.txt";
+		paramsMap.put("to_path", shareFilePath.substring(0,shareFilePath.lastIndexOf("/")+1) + rename);
+		fileops.copyFile(paramsMap, uid);
+		String path = shareFilePath.substring(0,shareFilePath.lastIndexOf("/")) + "/" + CommonUtils.urlEncode(rename);
+		String result = fileops.shares(path, "false", uid);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40304", "testShares_restriction_40304验证敏感词文件分享失败");
+	}
+	@Test(description="取消文件分享",
+		  dependsOnMethods="testShares_shareFile")
+	public void testShares_cancelShareFile(){
+		String result = fileops.shares(shareFilePath, "true", uid);
+		boolean isShare = Boolean.parseBoolean(fileops.jsonDecode(result, "share"));
+		Assert.assertFalse(isShare,"testShares_cancelShareFile取消分享失败");
+	}
+	@Test(description="不存在的文件路径")
+	public void testShares_notExistPath(){
+		String result = fileops.shares(vDirector + "/" + CommonUtils.getExpireTime(0), "false", uid);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40403", "testShares_notExistPath验证不存在path失败");
+	}
+	@Test(description="黑名单用户分享文件")
+	@Parameters("forbidden_uid")
+	public void testShares_forbiddenUser(String param){
+		String path = fileops.jsonDecode(fileops.upLoadFile(fileops.fList.get(0), "/", param, null),"path");
+		String result = fileops.shares(path, "false", param);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		fileops.delete(path, param);
+		Assert.assertEquals(errID, "40317", "testShares_forbiddenUser_验证黑名单用户分享文件失败");
+	}
+	@Test(description="分享根目录")
+	public void testShares_root(){
+		String result = fileops.shares("/", "false", uid);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40613", "testShares_root验证分享根目录失败");
+	}
+	@Parameters("empty_str")
+	@Test
+	public void testShares_cancel_empty_str(String param){
+		String result = formatVerified(shareFilePath, param);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_empty_str验证失败");
+	}
+	@Parameters("decimal")
+	@Test
+	public void testShares_cancel_decimal(String param){
+		String result = formatVerified(shareFilePath, param);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_decimal验证失败");
+	}
+	@Parameters("negative")
+	@Test
+	public void testShares_cancel_negative(String param){
+		String result = formatVerified(shareFilePath, param);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_negative验证失败");
+	}
+	@Parameters("letter")
+	@Test
+	public void testShares_cancel_letter(String param){
+		String result = formatVerified(shareFilePath, param);
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_letter验证失败");
+	}
+	@Parameters("chinese")
+	@Test
+	public void testShares_cancel_chinese(String param){
+		String result = formatVerified(shareFilePath, CommonUtils.urlEncode(param));
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_chinese验证失败");
+	}
+	@Parameters("spec_str")
+	@Test
+	public void testShares_cancel_spec_str(String param){
+		String result = formatVerified(shareFilePath, CommonUtils.urlEncode(param));
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_spec_str验证失败");
+	}
+	@Parameters("en_space")
+	@Test
+	public void testShares_cancel_en_space(String param){
+		String result = formatVerified(shareFilePath, CommonUtils.urlEncode(param));
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_en_space验证失败");
+	}
+	@Test(description="1或0验证boolean值")
+	public void testSearch_include_delete_OneOrZero(){
+		String param = "1";
+		String result = formatVerified(shareFilePath, CommonUtils.urlEncode(param));
+		String errID = fileops.jsonDecode(result, ERR_KEY);
+		Assert.assertEquals(errID, "40001", "cancel_OneOrZero验证失败");
+	}
+
+//	@Test(description="path敏感词")
+//	public void testShares_path_restriction_40304(){
+//		String folderName = "法轮功";
+//		String folder_path = fileops.jsonDecode(fileops.createFolder(vDirector + "/" + folderName, uid),"path");
+//		paramsMap.put("root", "basic");
+//		paramsMap.put("from_path", shareFilePath);
+//		paramsMap.put("to_path", folder_path + "/share_test.txt");
+//		fileops.copyFile(paramsMap, uid);
+//		String share_path = vDirector + "/" + CommonUtils.urlEncode(folderName) + "/share_test.txt";
+//		String result = fileops.shares(share_path, "false", uid);
+//		System.out.println(result);
+//	}
+//	@Test(description="文件夹分享")
+//	public void testShares_shareFolder(){
+//		String folder_path = vDirector + "/shareFolder_" + CommonUtils.getExpireTime(0);
+//		System.out.println(folder_path);
+//		fileops.createFolder(folder_path, uid);
+//		fileops.upLoadFile(fileops.fList.get(0), folder_path, uid, paramsMap);
+//		String result = fileops.shares(folder_path, "false", uid);
+//		System.out.println(result);
+//		String errID = fileops.jsonDecodeErrMsg(ERR_KEY, result);
+//	}	
+	@AfterClass
+	public void cleanup(){
+		fileops.delete(vDirector, uid);
+	}
+	//参数格式验证
+	private String formatVerified(String path, String cancel){
+		String s_uri = uri + path;
+		paramsMap.clear();
+		paramsMap.put("cancel", cancel);
+		vdiskRequest.doPost(s_uri, paramsMap, null, uid);
+		String body = vdiskRequest.getVdiskResult().getBody();
+		return body;
+	}
+	//创建分享文件
+	private String prepareShareFile(){
+		//上传文件
+		File file = fileops.fList.get(0);
+		String body = fileops.upLoadFile(file, vDirector, uid, paramsMap);
+		String filePath = fileops.jsonDecode(body, "path");
+		//按时间戳重命名文件
+		paramsMap.put("root", "basic");
+		paramsMap.put("from_path", filePath);
+		String rename = vDirector + "/" + CommonUtils.getExpireTime(0) + ".txt";
+//		String rename = vDirector + "/" + "1386049160.txt";//此文件名不能分享
+		paramsMap.put("to_path", rename);
+		String result = fileops.rename(paramsMap, uid);
+		String filename = fileops.jsonDecode(result, "path");
+		paramsMap.clear();
+		return filename;
+	}
+}
